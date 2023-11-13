@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="a.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class = "container">
+        <div class = "carousel">
+            <div class = "track">
+                <section class="card">section 1</section>
+                <section class="card">section 2</section>
+                <section class="card">section 3</section>
+                <section class="card">section 4</section>
+                <section class="card">section 5</section>
+                <section class="card">section 6</section>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const track = document.querySelector('.track');
+        let initialPosition = null;
+        let moving = false;
+        let transform = 0;
+
+        const gestureStart = (e) => {
+            initialPosition = e.pageX;
+            moving = true;
+            const transformMatrix = window.getComputedStyle(track).getPropertyValue('transform');
+            if (transformMatrix === 'none') {
+                transform = parseInt(transformMatrix.split(',')[4].trim());
+            };
+        };
+
+        const gestureMove =  (e) => {
+            if (moving) {
+                const currentPosition = e.pageX;
+                const diff = initialPosition - currentPosition;
+                slider.style.transform = `translateX(${diff}px)`;
+            };
+        };
+
+        const gestureIn = (e) => {
+            moving = false;
+        };
+
+        if (window.PointerEvent) {
+            window.addEventListener('pointerdown', gestureStart);
+
+            window.addEventListener('pointermove', gestureMove);
+
+            window.addEventListener('pointerup', gestureIn)
+        }
+        else {
+            window.addEventListener('pointerdown', gestureStart);
+
+            window.addEventListener('pointermove', gestureMove);
+
+            window.addEventListener('pointerup', gestureIn);
+
+            window.addEventListener('mousedown', gestureStart);
+
+            window.addEventListener('mousemove', gestureMove);
+
+            window.addEventListener('mouseup', gestureIn);
+        };
+
+        
+    </script>
+</body>
+</html>
